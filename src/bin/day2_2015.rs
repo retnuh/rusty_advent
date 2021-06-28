@@ -8,7 +8,8 @@ fn main() {
 }
 
 fn needed(dimstr: &str) -> u32 {
-    let dims: Vec<u32> = dimstr.split('x')
+    let dims: Vec<u32> = dimstr
+        .split('x')
         .map(|s| u32::from_str(s).unwrap())
         .collect::<Vec<u32>>();
     let sides = [dims[0] * dims[1], dims[1] * dims[2], dims[0] * dims[2]];
@@ -17,10 +18,15 @@ fn needed(dimstr: &str) -> u32 {
 }
 
 fn ribbon(dimstr: &str) -> u32 {
-    let dims: Vec<u32> = dimstr.split('x')
+    let dims: Vec<u32> = dimstr
+        .split('x')
         .map(|s| u32::from_str(s).unwrap())
         .collect::<Vec<u32>>();
-    let perimeters = [2 * (dims[0] + dims[1]), 2 * (dims[1] + dims[2]), 2 * (dims[0] + dims[2])];
+    let perimeters = [
+        2 * (dims[0] + dims[1]),
+        2 * (dims[1] + dims[2]),
+        2 * (dims[0] + dims[2]),
+    ];
     let smallest: &u32 = perimeters.iter().min().unwrap();
     return dims.iter().product::<u32>() + *smallest;
 }

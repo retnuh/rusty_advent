@@ -18,7 +18,7 @@ fn houses(dirs: &String) -> usize {
             '<' => pos.0 -= 1,
             '^' => pos.1 += 1,
             'v' => pos.1 -= 1,
-            _ => panic!("unexpected char: {}",d)
+            _ => panic!("unexpected char: {}", d),
         };
         seen.insert(pos.clone());
     }
@@ -45,7 +45,7 @@ fn robo_houses(dirs: &String) -> usize {
             '<' => pos.0 -= 1,
             '^' => pos.1 += 1,
             'v' => pos.1 -= 1,
-            _ => panic!("unexpected char: {}",d)
+            _ => panic!("unexpected char: {}", d),
         };
         seen.insert(pos.clone());
         santas_turn = !santas_turn;

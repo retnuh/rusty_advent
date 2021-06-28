@@ -3,8 +3,14 @@ use std::fs;
 
 fn main() {
     let input = fs::read_to_string("inputs/2015/day5.txt").unwrap();
-    println!("Nice: {}", input.lines().map(|l| nice(l.trim())).sum::<u32>());
-    println!("Moar Nice: {}", input.lines().map(|l| moar_nice(l.trim())).sum::<u32>());
+    println!(
+        "Nice: {}",
+        input.lines().map(|l| nice(l.trim())).sum::<u32>()
+    );
+    println!(
+        "Moar Nice: {}",
+        input.lines().map(|l| moar_nice(l.trim())).sum::<u32>()
+    );
 }
 
 fn nice(s: &str) -> u32 {
@@ -44,7 +50,11 @@ fn double_pair(chars: &Vec<char>) -> bool {
     let mut pairs: HashMap<&[char], usize> = HashMap::new();
     for (i, w) in chars.windows(2).enumerate() {
         match pairs.get(w) {
-            Some(x) => if  *x != (i - 1) { return true },
+            Some(x) => {
+                if *x != (i - 1) {
+                    return true;
+                }
+            }
             None => {
                 pairs.insert(w, i);
                 ()

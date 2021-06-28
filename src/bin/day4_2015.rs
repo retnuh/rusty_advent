@@ -9,7 +9,7 @@ fn main() {
 
 fn find_next_int(start: u32, prefix: &str, pattern: &str) -> u32 {
     for i in start..MAX {
-        let digest = md5::compute(format!("{}{}",prefix, i).as_bytes());
+        let digest = md5::compute(format!("{}{}", prefix, i).as_bytes());
         let string = format!("{:x}", digest);
         if string.starts_with(pattern) {
             return i;
