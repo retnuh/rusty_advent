@@ -205,10 +205,8 @@ fn main() {
     let part1_a_val = part1_state.get("a").unwrap().value(&part1_state);
     println!("Part1 a's output: {}", part1_a_val);
     let mut part2_state = circuit_parser(&text).unwrap().1;
-    part2_state.insert(
-        "b".to_owned(),
-        gate_parser(&format!("{} -> b", part1_a_val)).unwrap().1,
-    );
+    let (b_name, b_gate) = signal_parser(&format!("{} -> b", part1_a_val)).unwrap().1;
+    part2_state.insert(b_name, b_gate);
     let part2_a_val = part2_state.get("a").unwrap().value(&part2_state);
     println!("Part2 a's output: {}", part2_a_val);
 }
