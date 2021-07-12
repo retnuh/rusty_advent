@@ -1,8 +1,5 @@
-#![feature(map_first_last)]
-#![feature(btree_retain)]
-
 use itertools::Itertools;
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 use std::fs;
 
 fn main() {
@@ -15,7 +12,7 @@ fn main() {
 
 fn find_path(input: &String, worst: u32, better: impl Fn(u32, u32) -> bool) -> u32 {
     let regex = regex::Regex::new(r"(.+?) to (.+?) = (\d+)").unwrap();
-    let edges: BTreeSet<(u32, &str, &str)> = input
+    let edges: HashSet<(u32, &str, &str)> = input
         .lines()
         .map(|line| {
             let c = regex.captures(line).unwrap();
