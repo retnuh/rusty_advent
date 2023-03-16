@@ -193,7 +193,7 @@ named!(circuit_parser<&str, HashMap<String, Gate>>,
 
 #[test]
 fn test_circuit_parser() {
-    let mut state = circuit_parser("1 -> foo\nfoo LSHIFT 3 -> bar\nbar -> baz")
+    let state = circuit_parser("1 -> foo\nfoo LSHIFT 3 -> bar\nbar -> baz")
         .unwrap()
         .1;
     assert_eq!(state.get("baz").unwrap().value(&state), 8);

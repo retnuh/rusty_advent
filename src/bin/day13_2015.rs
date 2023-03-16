@@ -1,4 +1,3 @@
-use std::collections::hash_map::RandomState;
 use std::collections::{HashMap, HashSet};
 use std::fs;
 use std::i32::MIN;
@@ -20,13 +19,13 @@ fn main() {
 
 fn parse_line(line: &str) -> ((&str, &str), i32) {
     lazy_static! {
-        static ref regex: Regex = Regex::new(
+        static ref REGEX: Regex = Regex::new(
             r"(\w+) would (gain|lose) (\d+) happiness units by sitting next to (\w+)\.",
         )
         .unwrap();
     }
 
-    let c = regex.captures(line).unwrap();
+    let c = REGEX.captures(line).unwrap();
     let mult = if c.get(2).unwrap().as_str() == "lose" {
         -1
     } else {

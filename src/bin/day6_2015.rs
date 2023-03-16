@@ -101,8 +101,8 @@ fn main() {
         let op = captures.get(1).unwrap().as_str();
         for y in start_y..=end_y {
             for x in start_x..=end_x {
-                &mut part1_grid[y * 1000 + x].apply(op);
-                &mut part2_grid[y * 1000 + x].apply(op);
+                let _ = &mut part1_grid[y * 1000 + x].apply(op);
+                let _ = &mut part2_grid[y * 1000 + x].apply(op);
             }
         }
     }

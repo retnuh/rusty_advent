@@ -1,11 +1,11 @@
 #![feature(default_free_fn)]
 
-use std::cmp::{max, min};
+use std::cmp::max;
 use std::fs;
 use std::ops::{Add, Mul};
 
 use lazy_static::lazy_static;
-use num::Integer;
+
 use regex::Regex;
 use std::default::default;
 
@@ -86,7 +86,7 @@ fn loop_ingredients(
     restricted: bool,
 ) -> Properties {
     if index == ingredients.len() - 1 {
-        let just_me = (ingredients[index].1 * max_count);
+        let just_me = ingredients[index].1 * max_count;
         let with_me = *current + just_me;
         // println!(
         //     "\tLast: {} {} {} {} {:?} {:?}",
