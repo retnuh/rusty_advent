@@ -1,4 +1,3 @@
-#[macro_use]
 extern crate nom;
 
 use std::cell::Cell;
@@ -6,9 +5,13 @@ use std::collections::HashMap;
 use std::fs;
 
 use nom::{
+    branch::alt,
     bytes::complete::tag,
     character::complete::{alpha1, digit1},
-    combinator::map_res,
+    combinator::{complete, map, map_res},
+    error::Error,
+    multi::separated_list1,
+    sequence::{preceded, tuple},
     IResult,
 };
 
@@ -116,13 +119,12 @@ fn u16_parser(input: &str) -> IResult<&str, u16> {
     map_res(digit1, |val: &str| val.parse::<u16>())(input)
 }
 
-named!(
-    input_parser<&str, Input>,
-    alt!(
-        alpha1 => { |name: &str| Input::Wire(name.to_owned()) } |
-        u16_parser => { |val: u16|  Input::Value(val) }
-    )
-);
+fn input_parser(input: &str) -> IResult<&str, Input, Error<&str>> {
+    alt((
+        map(alpha1, |name: &str| Input::Wire(name.to_owned())),
+        map(u16_parser, |val: u16| Input::Value(val)),
+    ))(input)
+}
 
 #[test]
 fn test_input_parser() {
@@ -136,7 +138,9 @@ fn test_input_parser() {
     )
 }
 
-named!(output_parser<&str, &str>, preceded!(tag(" -> "), alpha1));
+fn output_parser(input: &str) -> IResult<&str, &str, Error<&str>> {
+    preceded(tag(" -> "), alpha1)(input)
+}
 
 #[test]
 fn test_output_parser() {
@@ -144,16 +148,30 @@ fn test_output_parser() {
     assert_eq!(output_parser(" -> foo\n"), Ok(("\n", "foo")),);
 }
 
-named!(gate_parser<&str, Gate>,
-    alt!(
-        complete!(tuple!(input_parser, tag!(" AND "), input_parser)) => { |(l, _, r)| Gate::and(l,r) } |
-        complete!(tuple!(input_parser, tag!(" OR "), input_parser)) => { |(l, _, r)| Gate::or(l,r) } |
-        complete!(tuple!(input_parser, tag!(" LSHIFT "), u16_parser)) => { |(l, _, r)| Gate::lshift(l,r) } |
-        complete!(tuple!(input_parser, tag!(" RSHIFT "), u16_parser)) => { |(l, _, r)| Gate::rshift(l,r) } |
-        preceded!(tag!("NOT "), input_parser) => { |input: Input| Gate::not(input) } |
-        input_parser => { |input: Input| Gate::simple(input) }
-    )
-);
+fn gate_parser(input: &str) -> IResult<&str, Gate, Error<&str>> {
+    alt((
+        map(
+            complete(tuple((input_parser, tag(" AND "), input_parser))),
+            |(l, _, r)| Gate::and(l, r),
+        ),
+        map(
+            complete(tuple((input_parser, tag(" OR "), input_parser))),
+            |(l, _, r)| Gate::or(l, r),
+        ),
+        map(
+            complete(tuple((input_parser, tag(" LSHIFT "), u16_parser))),
+            |(l, _, r)| Gate::lshift(l, r),
+        ),
+        map(
+            complete(tuple((input_parser, tag(" RSHIFT "), u16_parser))),
+            |(l, _, r)| Gate::rshift(l, r),
+        ),
+        map(preceded(tag("NOT "), input_parser), {
+            |input: Input| Gate::not(input)
+        }),
+        map(input_parser, |input: Input| Gate::simple(input)),
+    ))(input)
+}
 
 #[test]
 fn test_gate_parser() {
@@ -180,16 +198,18 @@ fn test_gate_parser() {
     assert_eq!(state.get("lshift").unwrap().value(&state), 12);
 }
 
-named!(signal_parser<&str, (String, Gate)>,
-    map!(tuple!(gate_parser, output_parser), |(g,n)| (n.to_owned(),g))
-);
+fn signal_parser(input: &str) -> IResult<&str, (String, Gate), Error<&str>> {
+    map(tuple((gate_parser, output_parser)), |(g, n)| {
+        (n.to_owned(), g)
+    })(input)
+}
 
-named!(circuit_parser<&str, HashMap<String, Gate>>,
-    map!(
-        separated_list1!(complete!(tag!("\n")), complete!(signal_parser)),
-        |v| v.into_iter().collect::<HashMap<String, Gate>>()
-    )
-);
+fn circuit_parser(input: &str) -> IResult<&str, HashMap<String, Gate>, Error<&str>> {
+    map(
+        separated_list1(complete(tag("\n")), complete(signal_parser)),
+        |v| v.into_iter().collect::<HashMap<String, Gate>>(),
+    )(input)
+}
 
 #[test]
 fn test_circuit_parser() {
