@@ -21,7 +21,7 @@ fn next_password(password: &str) -> String {
     return String::from_iter(chars.iter());
 }
 
-fn is_valid(s: &Vec<char>) -> bool {
+fn is_valid(s: &[char]) -> bool {
     let mut run_of_three = false;
     let mut pairs = 0;
     let mut last_pair_end: usize = MAX;

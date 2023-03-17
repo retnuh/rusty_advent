@@ -38,7 +38,7 @@ fn parse_line(line: &str) -> ((&str, &str), i32) {
     (p, h)
 }
 
-fn find_happiness(input: &String) -> i32 {
+fn find_happiness(input: &str) -> i32 {
     let feelings: HashMap<(&str, &str), i32> = input.lines().map(parse_line).collect();
     println!("Feelings: {:?}", feelings);
     let people: HashSet<&str> = feelings.keys().map(|x| x.0).collect();
@@ -76,7 +76,7 @@ fn calculate_buzz(feelings: HashMap<(&str, &str), i32>, people: HashSet<&str>) -
     best_buzz
 }
 
-fn find_happiness_with_myself(input: &String) -> i32 {
+fn find_happiness_with_myself(input: &str) -> i32 {
     let mut feelings: HashMap<(&str, &str), i32> = input.lines().map(parse_line).collect();
     println!("Feelings: {:?}", feelings);
     let mut people: HashSet<&str> = feelings.keys().map(|x| x.0).collect();

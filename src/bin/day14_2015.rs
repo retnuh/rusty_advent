@@ -1,4 +1,4 @@
-use std::cmp::min;
+use std::cmp::{min, Ordering};
 use std::fs;
 
 use lazy_static::lazy_static;
@@ -32,19 +32,23 @@ impl Reindeer {
     }
 
     fn tick(&mut self) {
-        if self.clock > 0 {
-            self.current_distance += self.distance;
-            self.clock -= 1;
-            if self.clock == 0 {
-                self.clock = -(self.sleep as i32)
+        match self.clock.cmp(&0) {
+            Ordering::Greater => {
+                self.current_distance += self.distance;
+                self.clock -= 1;
+                if self.clock == 0 {
+                    self.clock = -(self.sleep as i32)
+                }
             }
-        } else if self.clock < 0 {
-            self.clock += 1;
-            if self.clock == 0 {
-                self.clock = self.sprint as i32
+            Ordering::Less => {
+                self.clock += 1;
+                if self.clock == 0 {
+                    self.clock = self.sprint as i32
+                }
             }
-        } else {
-            panic!("Bad state: {:?}", self)
+            Ordering::Equal => {
+                panic!("Bad state: {:?}", self)
+            }
         }
     }
 
@@ -74,7 +78,7 @@ fn parse_line(line: &str) -> Reindeer {
     };
 }
 
-fn find_fastest(input: &String, time: u32) -> u32 {
+fn find_fastest(input: &str, time: u32) -> u32 {
     let reindeer: Vec<Reindeer> = input.lines().map(parse_line).collect();
     println!("Reindeer: {:?}", reindeer);
     let distances: Vec<(Reindeer, u32)> = reindeer
@@ -89,7 +93,7 @@ fn find_fastest(input: &String, time: u32) -> u32 {
     best.1
 }
 
-fn find_best_score(input: &String, time: u32) -> u32 {
+fn find_best_score(input: &str, time: u32) -> u32 {
     let mut reindeer: Vec<Reindeer> = input.lines().map(parse_line).collect();
     println!("Reindeer: {:?}", reindeer);
     for _t in 1..=time {

@@ -79,7 +79,7 @@ fn parse_line(line: &str) -> (String, Properties) {
 }
 
 fn loop_ingredients(
-    ingredients: &Vec<(String, Properties)>,
+    ingredients: &[(String, Properties)],
     index: usize,
     max_count: i32,
     current: &Properties,
@@ -134,7 +134,7 @@ fn loop_ingredients(
     }
 }
 
-fn part1(input: &String, restricted: bool) -> i32 {
+fn part1(input: &str, restricted: bool) -> i32 {
     let ingredients: Vec<(String, Properties)> = input.lines().map(parse_line).collect();
     println!("Ingredients: {:?}", ingredients);
     let default: Properties = default();

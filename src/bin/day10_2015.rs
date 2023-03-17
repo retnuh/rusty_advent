@@ -17,12 +17,12 @@ fn look_and_say(look: &str) -> String {
     let chars: Vec<char> = look.chars().collect();
     let mut prev = chars[0];
     let mut count = 1;
-    for i in 1..chars.len() {
-        if chars[i] == prev {
+    for cur in chars.iter().skip(1) {
+        if *cur == prev {
             count += 1
         } else {
             say.push_str(format!("{}{}", count, prev).as_str());
-            prev = chars[i];
+            prev = *cur;
             count = 1;
         }
     }

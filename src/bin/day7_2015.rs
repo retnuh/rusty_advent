@@ -49,10 +49,12 @@ impl Input {
 //     }
 // }
 
+type GateOperation = dyn Fn(&HashMap<String, Gate>) -> u16;
+
 // #[derive(Debug)]
 struct Gate {
     value: Cell<Option<u16>>,
-    op: Box<dyn Fn(&HashMap<String, Gate>) -> u16>,
+    op: Box<GateOperation>,
 }
 
 impl Gate {
@@ -67,7 +69,7 @@ impl Gate {
         }
     }
 
-    fn new(op: Box<dyn Fn(&HashMap<String, Gate>) -> u16>) -> Gate {
+    fn new(op: Box<GateOperation>) -> Gate {
         Gate {
             value: Cell::new(None),
             op,

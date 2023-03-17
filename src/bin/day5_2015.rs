@@ -46,7 +46,7 @@ fn test_nice() {
     assert_eq!(0, nice("dvszwmarrgswjxmb"));
 }
 
-fn double_pair(chars: &Vec<char>) -> bool {
+fn double_pair(chars: &[char]) -> bool {
     let mut pairs: HashMap<&[char], usize> = HashMap::new();
     for (i, w) in chars.windows(2).enumerate() {
         match pairs.get(w) {
@@ -63,7 +63,7 @@ fn double_pair(chars: &Vec<char>) -> bool {
     false
 }
 
-fn repeat_after_gap(chars: &Vec<char>) -> bool {
+fn repeat_after_gap(chars: &[char]) -> bool {
     for w in chars.windows(3) {
         if w[0] == w[2] {
             return true;

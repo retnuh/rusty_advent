@@ -51,7 +51,7 @@ fn parse_line(line: &str) -> (&str, HashMap<&str, i32>) {
     (c.get(1).unwrap().as_str(), m)
 }
 
-fn part1<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
+fn part1<'a>(input: &'a str, analysis: &HashMap<&str, i32>) -> &'a str {
     let sues: Vec<(&str, HashMap<&str, i32>)> = input.lines().map(parse_line).collect();
     let sue = sues
         .iter()
@@ -63,7 +63,7 @@ fn part1<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
     sue.0
 }
 
-fn part2<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
+fn part2<'a>(input: &'a str, analysis: &HashMap<&str, i32>) -> &'a str {
     let sues: Vec<(&str, HashMap<&str, i32>)> = input.lines().map(parse_line).collect();
     let sue = sues
         .iter()

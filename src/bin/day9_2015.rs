@@ -10,7 +10,7 @@ fn main() {
     println!("Part 2: {}", max_path_cost);
 }
 
-fn find_path(input: &String, worst: u32, better: impl Fn(u32, u32) -> bool) -> u32 {
+fn find_path(input: &str, worst: u32, better: impl Fn(u32, u32) -> bool) -> u32 {
     let regex = regex::Regex::new(r"(.+?) to (.+?) = (\d+)").unwrap();
     let edges: HashSet<(u32, &str, &str)> = input
         .lines()

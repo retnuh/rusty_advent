@@ -8,7 +8,7 @@ fn main() {
     // println!("Ribbon: {}", input.lines().fold(0, |t, f| t + ribbon(f)));
 }
 
-fn houses(dirs: &String) -> usize {
+fn houses(dirs: &str) -> usize {
     let mut seen = HashSet::new();
     let mut pos = (0, 0);
     seen.insert(pos);
@@ -32,7 +32,7 @@ fn test_houses() {
     assert_eq!(2, houses(&"^v^v^v^v^v".to_string()));
 }
 
-fn robo_houses(dirs: &String) -> usize {
+fn robo_houses(dirs: &str) -> usize {
     let mut seen = HashSet::new();
     let mut santa = (0, 0);
     let mut robo = (0, 0);

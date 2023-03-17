@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::fs;
 
 fn main() {
@@ -8,7 +9,7 @@ fn main() {
     println!("Part 2: {}", part2_out);
 }
 
-fn loop_containers_part1(containers: &Vec<u32>, index: usize, remaining: u32) -> u32 {
+fn loop_containers_part1(containers: &[u32], index: usize, remaining: u32) -> u32 {
     if index == containers.len() - 1 {
         if containers[index] == remaining {
             1
@@ -17,17 +18,18 @@ fn loop_containers_part1(containers: &Vec<u32>, index: usize, remaining: u32) ->
         }
     } else {
         let without_me = loop_containers_part1(containers, index + 1, remaining);
-        if containers[index] == remaining {
-            1 + without_me
-        } else if containers[index] > remaining {
-            without_me
-        } else {
-            without_me + loop_containers_part1(containers, index + 1, remaining - containers[index])
+        match containers[index].cmp(&remaining) {
+            Ordering::Equal => 1 + without_me,
+            Ordering::Greater => without_me,
+            Ordering::Less => {
+                without_me
+                    + loop_containers_part1(containers, index + 1, remaining - containers[index])
+            }
         }
     }
 }
 
-fn part1(input: &String, amount: u32) -> u32 {
+fn part1(input: &str, amount: u32) -> u32 {
     let containers: Vec<u32> = input.lines().map(|l| l.parse::<u32>().unwrap()).collect();
     loop_containers_part1(&containers, 0, amount)
 }
@@ -36,7 +38,7 @@ type ContainerCount = u32;
 type Capacity = u32;
 
 fn loop_containers_part2(
-    containers: &Vec<u32>,
+    containers: &[u32],
     index: usize,
     remaining: Capacity,
     used: ContainerCount,
@@ -48,21 +50,21 @@ fn loop_containers_part2(
         }
     } else {
         loop_containers_part2(containers, index + 1, remaining, used, combos);
-        if containers[index] == remaining {
-            combos.push(used + 1)
-        } else if containers[index] < remaining {
-            loop_containers_part2(
+        match containers[index].cmp(&remaining) {
+            Ordering::Equal => combos.push(used + 1),
+            Ordering::Less => loop_containers_part2(
                 containers,
                 index + 1,
                 remaining - containers[index],
                 used + 1,
                 combos,
-            );
+            ),
+            Ordering::Greater => (),
         }
     }
 }
 
-fn part2(input: &String, amount: u32) -> usize {
+fn part2(input: &str, amount: u32) -> usize {
     let containers: Vec<u32> = input.lines().map(|l| l.parse::<u32>().unwrap()).collect();
     let mut combos = vec![];
     loop_containers_part2(&containers, 0, amount, 0, &mut combos);

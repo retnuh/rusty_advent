@@ -11,7 +11,7 @@ fn main() {
 // ()) and ))( both result in floor -1 (the first basement level).
 // ))) and )())()) both result in floor -3.
 
-fn floor(instructions: &String) -> i32 {
+fn floor(instructions: &str) -> i32 {
     let mut floor = 0;
     for c in instructions.chars() {
         if c == '(' {
@@ -23,7 +23,7 @@ fn floor(instructions: &String) -> i32 {
     floor
 }
 
-fn basement_pos(instructions: &String) -> i32 {
+fn basement_pos(instructions: &str) -> i32 {
     let mut floor = 0;
     let mut pos = 1;
     for c in instructions.chars() {
