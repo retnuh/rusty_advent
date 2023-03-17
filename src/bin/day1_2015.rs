@@ -20,7 +20,7 @@ fn floor(instructions: &String) -> i32 {
             floor -= 1;
         }
     }
-    return floor;
+    floor
 }
 
 fn basement_pos(instructions: &String) -> i32 {
@@ -37,7 +37,7 @@ fn basement_pos(instructions: &String) -> i32 {
         }
         pos += 1;
     }
-    return pos;
+    pos
 }
 
 #[test]

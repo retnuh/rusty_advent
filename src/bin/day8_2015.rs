@@ -4,12 +4,8 @@ fn main() {
     let input = fs::read_to_string("inputs/2015/day8.txt").unwrap();
     let data: Vec<&str> = input.lines().collect();
     let full = data.iter().fold(0, |t, s: &&str| t + (*s).len());
-    let rendered = data
-        .iter()
-        .fold(0, |t, s: &&str| t + part1_render_count(*s));
-    let encoded = data
-        .iter()
-        .fold(0, |t, s: &&str| t + part2_encode_count(*s));
+    let rendered = data.iter().fold(0, |t, s: &&str| t + part1_render_count(s));
+    let encoded = data.iter().fold(0, |t, s: &&str| t + part2_encode_count(s));
     println!("Part 1: {}", full - rendered);
     println!("Part 2: {}", encoded - full);
 }

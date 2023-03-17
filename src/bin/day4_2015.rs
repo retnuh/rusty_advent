@@ -1,4 +1,3 @@
-use md5;
 use std::u32::MAX;
 
 fn main() {
@@ -15,7 +14,7 @@ fn find_next_int(start: u32, prefix: &str, pattern: &str) -> u32 {
             return i;
         }
     }
-    return 0;
+    0
 }
 
 #[test]

@@ -11,7 +11,7 @@ fn main() {
 fn houses(dirs: &String) -> usize {
     let mut seen = HashSet::new();
     let mut pos = (0, 0);
-    seen.insert(pos.clone());
+    seen.insert(pos);
     for d in dirs.chars() {
         match d {
             '>' => pos.0 += 1,
@@ -20,9 +20,9 @@ fn houses(dirs: &String) -> usize {
             'v' => pos.1 -= 1,
             _ => panic!("unexpected char: {}", d),
         };
-        seen.insert(pos.clone());
+        seen.insert(pos);
     }
-    return seen.len();
+    seen.len()
 }
 
 #[test]
@@ -37,7 +37,7 @@ fn robo_houses(dirs: &String) -> usize {
     let mut santa = (0, 0);
     let mut robo = (0, 0);
     let mut santas_turn = true;
-    seen.insert(santa.clone());
+    seen.insert(santa);
     for d in dirs.chars() {
         let mut pos = if santas_turn { &mut santa } else { &mut robo };
         match d {
@@ -47,10 +47,10 @@ fn robo_houses(dirs: &String) -> usize {
             'v' => pos.1 -= 1,
             _ => panic!("unexpected char: {}", d),
         };
-        seen.insert(pos.clone());
+        seen.insert(*pos);
         santas_turn = !santas_turn;
     }
-    return seen.len();
+    seen.len()
 }
 
 #[test]

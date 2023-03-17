@@ -43,7 +43,7 @@ fn is_valid(s: &Vec<char>) -> bool {
             run_of_three = true;
         }
     }
-    return run_of_three && pairs >= 2;
+    run_of_three && pairs >= 2
 }
 
 fn increment(s: &mut Vec<char>, pos: usize) {

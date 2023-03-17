@@ -87,7 +87,7 @@ fn loop_ingredients(
 ) -> Properties {
     if index == ingredients.len() - 1 {
         let just_me = ingredients[index].1 * max_count;
-        let with_me = *current + just_me;
+
         // println!(
         //     "\tLast: {} {} {} {} {:?} {:?}",
         //     max_count,
@@ -97,7 +97,7 @@ fn loop_ingredients(
         //     just_me,
         //     with_me,
         // );
-        with_me
+        *current + just_me
     } else {
         let mut best = *current;
         for count in 0..=max_count {
@@ -139,7 +139,7 @@ fn part1(input: &String, restricted: bool) -> i32 {
     println!("Ingredients: {:?}", ingredients);
     let default: Properties = default();
     let best = loop_ingredients(&ingredients, 0, 100, &default, restricted);
-    return best.score();
+    best.score()
 }
 
 #[test]

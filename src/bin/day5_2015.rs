@@ -34,7 +34,7 @@ fn nice(s: &str) -> u32 {
     if vowels >= 3 && double {
         return 1;
     }
-    return 0;
+    0
 }
 
 #[test]
@@ -57,11 +57,10 @@ fn double_pair(chars: &Vec<char>) -> bool {
             }
             None => {
                 pairs.insert(w, i);
-                ()
             }
         }
     }
-    return false;
+    false
 }
 
 fn repeat_after_gap(chars: &Vec<char>) -> bool {
@@ -70,7 +69,7 @@ fn repeat_after_gap(chars: &Vec<char>) -> bool {
             return true;
         }
     }
-    return false;
+    false
 }
 
 fn moar_nice(s: &str) -> u32 {
@@ -80,7 +79,11 @@ fn moar_nice(s: &str) -> u32 {
     if moar_nice != bruno_moar_nice {
         println!("{}: {} {}", s, moar_nice, bruno_moar_nice);
     }
-    return if moar_nice { 1 } else { 0 };
+    if moar_nice {
+        1
+    } else {
+        0
+    }
     // return moar_nice.into();
 }
 

@@ -60,7 +60,7 @@ fn part1<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
                 .fold(true, |c, (&k, v)| c && analysis.get(k).unwrap() == v)
         })
         .unwrap();
-    return sue.0;
+    sue.0
 }
 
 fn part2<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
@@ -78,7 +78,7 @@ fn part2<'a>(input: &'a String, analysis: &HashMap<&str, i32>) -> &'a str {
             })
         })
         .unwrap();
-    return sue.0;
+    sue.0
 }
 
 #[test]

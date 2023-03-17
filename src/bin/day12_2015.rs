@@ -1,9 +1,11 @@
-use serde_json::{json, Value};
+#[cfg(test)]
+use serde_json::json;
+use serde_json::Value;
 use std::fs;
 
 fn main() {
     let input = fs::read_to_string("inputs/2015/day12.json").unwrap();
-    let parsed: Value = serde_json::from_str(&*input).unwrap();
+    let parsed: Value = serde_json::from_str(&input).unwrap();
     println!("Part 1: {}", sum_numbers(&parsed));
     println!("Part 2: {}", sum_numbers_excluding_red(&parsed));
 }

@@ -57,7 +57,7 @@ fn find_path(input: &String, worst: u32, better: impl Fn(u32, u32) -> bool) -> u
             best_cost = cost;
         }
     }
-    return best_cost;
+    best_cost
 }
 
 #[test]

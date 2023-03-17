@@ -122,7 +122,7 @@ fn u16_parser(input: &str) -> IResult<&str, u16> {
 fn input_parser(input: &str) -> IResult<&str, Input, Error<&str>> {
     alt((
         map(alpha1, |name: &str| Input::Wire(name.to_owned())),
-        map(u16_parser, |val: u16| Input::Value(val)),
+        map(u16_parser, Input::Value),
     ))(input)
 }
 
@@ -166,10 +166,8 @@ fn gate_parser(input: &str) -> IResult<&str, Gate, Error<&str>> {
             complete(tuple((input_parser, tag(" RSHIFT "), u16_parser))),
             |(l, _, r)| Gate::rshift(l, r),
         ),
-        map(preceded(tag("NOT "), input_parser), {
-            |input: Input| Gate::not(input)
-        }),
-        map(input_parser, |input: Input| Gate::simple(input)),
+        map(preceded(tag("NOT "), input_parser), Gate::not),
+        map(input_parser, Gate::simple),
     ))(input)
 }
 

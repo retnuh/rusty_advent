@@ -44,15 +44,11 @@ fn find_happiness(input: &String) -> i32 {
     let people: HashSet<&str> = feelings.keys().map(|x| x.0).collect();
     println!("People: {:?}", people);
     stdout().flush().unwrap();
-    return calculate_buzz(feelings, people);
+    calculate_buzz(feelings, people)
 }
 
 fn calculate_buzz(feelings: HashMap<(&str, &str), i32>, people: HashSet<&str>) -> i32 {
-    let perms: Vec<Vec<&str>> = people
-        .iter()
-        .map(|&x| x)
-        .permutations(people.len())
-        .collect();
+    let perms: Vec<Vec<&str>> = people.iter().copied().permutations(people.len()).collect();
     // println!("Perms: {:?}", perms);
     let mut seen: HashSet<Vec<&str>> = HashSet::new();
     let mut best_buzz: i32 = MIN;
@@ -77,7 +73,7 @@ fn calculate_buzz(feelings: HashMap<(&str, &str), i32>, people: HashSet<&str>) -
             best_buzz = buzz;
         }
     }
-    return best_buzz;
+    best_buzz
 }
 
 fn find_happiness_with_myself(input: &String) -> i32 {
@@ -90,7 +86,7 @@ fn find_happiness_with_myself(input: &String) -> i32 {
         feelings.insert((*person, "Me"), 0);
     }
     people.insert("Me");
-    return calculate_buzz(feelings, people);
+    calculate_buzz(feelings, people)
 }
 
 #[test]

@@ -28,7 +28,7 @@ impl Reindeer {
     fn fly_for(&self, time: u32) -> u32 {
         let block = self.sprint + self.sleep;
         let (div, rem) = time.div_rem(&block);
-        return self.distance * (div * self.sprint + min(rem, self.sprint));
+        self.distance * (div * self.sprint + min(rem, self.sprint))
     }
 
     fn tick(&mut self) {
@@ -86,7 +86,7 @@ fn find_fastest(input: &String, time: u32) -> u32 {
         .collect();
     let best = distances.iter().max_by_key(|&x| x.1).unwrap();
     println!("The best - {} - has flown {}", best.0.name, best.1);
-    return best.1;
+    best.1
 }
 
 fn find_best_score(input: &String, time: u32) -> u32 {
